@@ -63,7 +63,7 @@ export const loginUser = async (req, res) => {
     });
   }
 
-   let payload = {
+  let payload = {
     id: user.id,
     email: user.email,
     name: user.name,
