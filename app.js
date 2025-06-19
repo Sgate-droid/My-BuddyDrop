@@ -3,8 +3,12 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import petRoutes from "./routes/pet.route.js";
 import { sequelize } from "./config/db.config.js";
+import EcontactRouter from './routes/Econtact.route.js';
 
 dotenv.config();
+
+
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -12,6 +16,36 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/pets", petRoutes);
+app.use('/api/econtact', EcontactRouter);
+
+
+import nodemailer from "nodemailer";
+
+const testTransporter = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS,
+  },
+});
+
+app.get("/test-email", async (req, res) => {
+  try {
+    await testTransporter.sendMail({
+      from: `"MyBuddy Support" <${process.env.EMAIL_FROM}>`,
+      to: "jimmymangara20@gmail.com",
+      subject: "Test Email from MyBuddy",
+      html: `<p>This is a test email from your Mailtrap SMTP setup</p>`,
+    });
+
+    res.status(200).json({ message: "Test email sent successfully!" });
+  } catch (err) {
+    console.error("Email error:", err);
+    res.status(500).json({ message: "Failed to send email", error: err.message });
+  }
+});
+
 
 sequelize
   .sync({ alter: true })

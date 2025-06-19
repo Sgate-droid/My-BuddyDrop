@@ -8,6 +8,17 @@ import { Op } from "sequelize";
 
 dotenv.config();
 
+// Mailtrap transporter
+const transporter = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS,
+  },
+});
+
+// Create User and Send Welcome Email
 export const createUser = async (req, res) => {
   const { email, password, name } = req.body;
 
@@ -33,6 +44,14 @@ export const createUser = async (req, res) => {
     });
   }
 
+  // Send welcome email
+    await transporter.sendMail({
+      from: `"MyBuddy" <${process.env.EMAIL_FROM}>`,
+      to: user.email,
+      subject: "Welcome to MyBuddy!",
+      html: `<p>Hello <strong>${user.name}</strong>, welcome to MyBuddy!</p>`,
+    });
+
   return res.status(201).json({
     status: true,
     message: "User registered successfully",
@@ -40,6 +59,7 @@ export const createUser = async (req, res) => {
   });
 };
 
+//User login
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -88,6 +108,7 @@ export const loginUser = async (req, res) => {
   });
 };
 
+//Forgot password
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ where: { email } });
