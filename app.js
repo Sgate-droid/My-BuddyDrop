@@ -4,6 +4,7 @@ import userRoutes from "./routes/user.route.js";
 import petRoutes from "./routes/pet.route.js";
 import { sequelize } from "./config/db.config.js";
 import EcontactRouter from './routes/Econtact.route.js';
+import paymentRoutes from './routes/payment.route.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/pets", petRoutes);
 app.use('/api/econtact', EcontactRouter);
+app.use('/api/payment', paymentRoutes);
 
 
 import nodemailer from "nodemailer";
