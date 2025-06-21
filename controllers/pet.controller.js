@@ -25,14 +25,13 @@ export const createPetProfile = async (req, res) => {
   });
 };
 
-//get all books
+
 export const getAllPetsProfile = async (req, res) => {
   const LIMIT = 5;
   const page = parseInt(req.query.page) || 1;
   const offset = (page - 1) * LIMIT;
   const pets = await Pet.findAndCountAll({ limit: LIMIT, offset });
 
-// const books = await Book.findAll();
 
   if (pets.count === 0) {
     return res.status(400).json({

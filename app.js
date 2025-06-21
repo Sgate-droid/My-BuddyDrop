@@ -7,6 +7,7 @@ import EcontactRouter from './routes/Econtact.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import messageRoutes from './routes/message.routes.js';
 import dropScheduleRoutes from './routes/dropSchedule.route.js';
+import MedicalDietRecordRoutes from "./routes/medicalDietRecord.route.js";
 
 
 dotenv.config();
@@ -24,6 +25,8 @@ app.use('/api/econtact', EcontactRouter);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/dropSchedule', dropScheduleRoutes);
+app.use('/api/medicalDietRecord', MedicalDietRecordRoutes);
+app.use('/uploads', express.static('uploads'));
 
 
 import nodemailer from "nodemailer";
