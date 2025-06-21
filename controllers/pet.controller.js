@@ -25,7 +25,7 @@ export const createPetProfile = async (req, res) => {
   });
 };
 
-//get all books
+//get all profile
 export const getAllPetsProfile = async (req, res) => {
   const LIMIT = 5;
   const page = parseInt(req.query.page) || 1;
@@ -37,14 +37,14 @@ export const getAllPetsProfile = async (req, res) => {
   if (pets.count === 0) {
     return res.status(400).json({
       status: false,
-      message: "Could not get the books",
+      message: "Could not get pet profile",
       data: [],
     });
   }
 
   return res.status(200).json({
     status: true,
-    message: "Books retrieved successfully",
+    message: "Pet Profile retrieved successfully",
     data: {
       pets: pets.rows,
       total: pets.count,
