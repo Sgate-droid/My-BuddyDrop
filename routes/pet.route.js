@@ -12,7 +12,7 @@ import { upload } from "../config/storage.config.js";
 
 const router = express.Router();
 
-router.post("/", upload.single('file'), createPetProfileValidator, validationResultMiddleware, createPetProfile);
+router.post("/upload", upload.single('file'), createPetProfileValidator, validationResultMiddleware, createPetProfile);
 
 router.get("/", getAllPetsProfile);
 

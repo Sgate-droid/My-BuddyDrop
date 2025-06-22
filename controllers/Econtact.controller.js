@@ -13,11 +13,11 @@ export const getAllEmergencyContacts = async (req, res) => {
 // POST create
 export const createEmergencyContact = async (req, res) => {
     try {
-        const { Name, Number, Relationship, AdditionalInfo } = req.body;
-        if (!Name || !Number || !Relationship || !AdditionalInfo) {
+        const { name, number, relationship, additionalInfo } = req.body;
+        if (!name || !number || !relationship || !additionalInfo) {
             return res.status(400).json({ message: 'Please provide all required fields' });
         }
-        const contact = await createContactModel({ Name, Number, Relationship, AdditionalInfo });
+        const contact = await createContactModel({ name, number, relationship, additionalInfo });
         res.status(201).json({ message: 'Emergency contact created successfully', contact });
     } catch (error) {
         res.status(500).json({ message: 'Error creating contact', error });
@@ -28,8 +28,8 @@ export const createEmergencyContact = async (req, res) => {
 export const updateEmergencyContact = async (req, res) => {
     try {
         const { id } = req.params;
-        const { Name, Number, Relationship, AdditionalInfo } = req.body;
-        const updated = await updateContactModel(id, { Name, Number, Relationship, AdditionalInfo });
+        const { name, number, relationship, additionalInfo } = req.body;
+        const updated = await updateContactModel(id, { name, number, relationship, additionalInfo });
         res.status(200).json({ message: 'Emergency contact updated successfully', updated });
     } catch (error) {
         res.status(500).json({ message: 'Error updating contact', error });

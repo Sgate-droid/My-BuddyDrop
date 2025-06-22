@@ -8,6 +8,7 @@ import paymentRoutes from './routes/payment.route.js';
 import messageRoutes from './routes/message.routes.js';
 import dropScheduleRoutes from './routes/dropSchedule.route.js';
 import MedicalDietRecordRoutes from "./routes/medicalDietRecord.route.js";
+import path from 'path';
 
 
 dotenv.config();
@@ -17,8 +18,22 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('\n--- NEW REQUEST ---');
+  console.log('Method:', req.method);
+  console.log('Path:', req.url);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  console.log('Files:', req.file || 'No files uploaded');
+  next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.use("/api/users", userRoutes);
 app.use("/api/pets", petRoutes);
 app.use('/api/econtact', EcontactRouter);
@@ -26,7 +41,7 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/dropSchedule', dropScheduleRoutes);
 app.use('/api/medicalDietRecord', MedicalDietRecordRoutes);
-app.use('/uploads', express.static('uploads'));
+
 
 
 import nodemailer from "nodemailer";
