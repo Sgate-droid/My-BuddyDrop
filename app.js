@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from 'cors';
 import userRoutes from "./routes/user.route.js";
 import petRoutes from "./routes/pet.route.js";
 import { sequelize } from "./config/db.config.js";
@@ -30,6 +31,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(cors({
+  origin: ['https://json.schema.org', 'https://localhost:3000']
+}));
 app.use(express.urlencoded({ extended: true }));
 
 // app.use('/uploads', express.static('uploads'));
